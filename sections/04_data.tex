@@ -1,0 +1,85 @@
+%% 04_data.tex
+%% Section 4: Data
+
+\section{Data}
+\label{sec:data}
+
+This section describes the data sources, construction, and coverage for each component of our analysis. We draw on three primary data sources: LSEG Refinitiv (formerly Thomson Reuters Datastream) for financial, market, and ESG data on listed companies; bank annual reports filed with the Financial Services Authority (OJK) for detailed loan exposure and financial statement data; and publicly available macroeconomic indicators from Statistics Indonesia (BPS) and the World Bank. Table~\ref{tab:data_sources} provides a summary of data coverage, and Appendix~\ref{sec:appendix_data} contains detailed variable definitions.
+
+\subsection{Coal Company Data}
+\label{subsec:coal_data}
+
+Our coal sample comprises 35 Indonesian coal companies. Of these, 32 maintain active listings on the Indonesia Stock Exchange (IDX) as of the latest reporting date. We include three additional companies, ARII (Atlas Resources), DEWA (Darma Henwa), and DWGL (Dwi Guna Laksana), that are delisted or traded over-the-counter but retain material bank exposures in our loan-level data. Inclusion of these firms ensures completeness in the bank-coal linkage analysis.
+
+\paragraph{Operational data.} Production volumes (annual output in million tonnes) are sourced from company annual reports and verified public disclosures, as LSEG Datastream does not provide production volume data for Indonesian coal companies. We verify production figures for 15 companies with a combined annual output of 390.0~Mt, representing the large majority of Indonesian thermal coal production. Four additional companies are flagged to avoid double-counting: two holding companies (ADRO and DSSA) whose coal production is consolidated through their listed subsidiaries (AADI and GEMS, respectively), and two mining contractors (DOID and MYOH) whose coal getting volumes represent services on behalf of mine owners rather than equity production. The remaining 16 companies are assigned missing values for production, as no reliable source could be identified. Each production entry carries a \texttt{production\_source} tag recording the data provenance (e.g., \texttt{annual\_report\_2023}). Coal rank classifications, calorific values, strip ratios, and mining methods are obtained from company disclosures. Reserve data are sparsely reported, with no firms disclosing JORC-compliant proven reserves through the LSEG platform; we therefore rely on production data and assumed mine lives (20 years, corresponding to the standard IUP concession duration) for discounted cash flow calculations.
+
+\paragraph{Cost structure.} Per-tonne cash costs are calculated by dividing cost of revenue from LSEG income statement data by verified production volumes, yielding cost estimates for 15 companies that have both data points. Breakeven costs, defined as cash cost plus royalty cost at the reference coal price of \$130/tonne, range from \$21.9/tonne (BUMI) to \$151.1/tonne (HRUM), with a median of \$69.9/tonne. This median positions the majority of Indonesian producers well above the IEA's projected coal price under the 1.5\textdegree C scenario (\$15/tonne by 2050), confirming the sector's fundamental exposure to stranding risk. Royalty rates are coded as 5\% for sub-bituminous producers and 7\% for bituminous producers, consistent with Indonesian mineral and coal royalty regulations.
+
+\paragraph{Financial statements.} Balance sheet and income statement data are extracted from LSEG Datastream for the latest available fiscal year (predominantly 2024, with some 2023 and 2025 interim reports). Key variables include total assets, total equity, total debt, cash holdings, revenue, cost of revenue, EBITDA, and interest expense. All financial data from LSEG are denominated in USD millions. Coverage is comprehensive for balance sheet items (35 of 35 firms) but more limited for income statement items (10--15 firms with full revenue and EBITDA data), reflecting the smaller market capitalisation of some firms and corresponding gaps in LSEG's analytical coverage.
+
+\paragraph{Cost of capital.} Firm-level weighted average cost of capital (WACC) is estimated following standard corporate finance methodology: the cost of equity is derived from a CAPM specification using five-year betas estimated against the Jakarta Composite Index (IHSG), a risk-free rate based on the 10-year Indonesian government bond yield, and a 6\% equity market risk premium. The cost of debt is approximated from interest expense divided by total debt, with a tax shield at the 22\% corporate rate. For climate-adjusted WACC, we add a stranding risk premium of 3 percentage points following \citet{Edwards2022}, capturing the incremental discount rate required by rational investors to hold climate-exposed assets. The median base WACC across the sample is 9.6\%, rising to 11.9\% with the stranding premium.
+
+
+
+\paragraph{Market data.} Daily stock prices and market capitalisations are obtained from LSEG Datastream for all 35 companies. Market capitalisations in the coal panel are reported in Indonesian rupiah (IDR) and converted to USD millions at the reference exchange rate of IDR 15,800 per USD. The aggregate market capitalisation of the 35 coal companies is approximately \$116 billion, though this is dominated by a handful of large-cap firms: BYAN alone accounts for approximately \$31 billion, followed by CUAN (\$12 billion) and AADI (\$4 billion).
+
+
+\subsection{Bank Data}
+\label{subsec:bank_data}
+
+Our bank sample consists of 38 banks listed on the IDX, representing the near-universe of publicly traded Indonesian commercial banks. Data for each bank are drawn from two complementary sources.
+
+\paragraph{Financial statement data from annual reports.} The primary source for bank financial data is the published annual report (Laporan Tahunan) filed with OJK and available through the IDX disclosure system. From these reports, we extract total assets, total equity, gross loans, net loans, total deposits, net income, interest income and expense, net interest income, provision expense, non-performing loan (NPL) amounts, and, critically, mining sector loan exposure. The mining loan figure is obtained from the sectoral breakdown of the loan portfolio, which Indonesian banks are required to disclose in the notes to their financial statements. All balance sheet and income statement values are reported in IDR, typically in millions or thousands depending on the bank, requiring careful scale harmonisation (described below).
+
+
+
+\paragraph{LSEG market and risk data.} Market capitalisation, five-year betas, stock return volatility, and cost of capital estimates are obtained from LSEG Datastream for all listed banks. The four D-SIBs have market capitalisations ranging from approximately \$10 billion (BBNI) to \$54 billion (BBCA), while smaller banks range from under \$100 million to several billion.
+
+\paragraph{Capital adequacy ratios.} Bank-level capital adequacy ratios (CARs) are compiled from a hierarchy of sources. For 11 of the 13 coal-exposed banks, we obtain the reported total CAR (\textit{Kewajiban Penyediaan Modal Minimum} or KPMM) directly from the bank's 2024 annual report filed with OJK, which discloses the ratio of total regulatory capital (Tier~1 plus Tier~2) to risk-weighted assets (\textit{Aset Tertimbang Menurut Risiko} or ATMR). For two additional banks (BBCA and BRIS), we use the Tier~1 capital ratio from LSEG Datastream as a conservative lower bound for total CAR. The median reported CAR across the 13 exposed banks is 23.3\%, well above the OJK minimum requirement of 8\% and the D-SIB buffer of 10.5\%. For the two banks in the exposure matrix without financial statement data (BNLI and MAYA), CAR analysis is not possible; however, BNLI's publicly reported CAR of 34.7\% suggests substantial capital resilience.
+
+\paragraph{Bank classification.} We classify banks into four size categories based on total assets: D-SIBs (total assets exceeding \$20 billion; 7 banks including BMRI, BBRI, BBCA, BBNI, BBTN, BRIS, and BNGA), Large (total assets \$5--20 billion; 5 banks), Medium (total assets \$500 million--\$5 billion; 16 banks), and Small (total assets below \$500 million; 10 banks). 
+
+
+\subsection{Bank--Coal Linkage Data}
+\label{subsec:linkage_data}
+
+The central data innovation of this paper is the construction of a bank-coal exposure matrix from granular loan-level disclosures in coal company annual reports. This approach reverses the typical direction of analysis: rather than examining bank balance sheets for sectoral loan breakdowns, we identify specific lender-borrower relationships from the borrower side, where companies are required to disclose the identity, currency, and amount of their bank facilities.
+
+\paragraph{Source and extraction.} For each of the 35 coal companies, we extract a listing of bank loans from the notes to the financial statements (Catatan atas Laporan Keuangan), specifically from the ``Borrowings'' or ``Bank Loans'' note. Each entry typically includes the lending bank's name, the loan currency (IDR or USD), the outstanding principal amount, and the reporting scale (full amount, thousands, or millions). We hand-match bank names to IDX-listed bank tickers. Other lenders, such as foreign banks, non-bank lenders, and syndicated facilities where individual participations are not disclosed, are coded as ``Unattributed.''
+
+\paragraph{Currency conversion.} Loan amounts denominated in IDR are converted to USD millions using the exchange rate of 15{,}800. The reporting convention is identified from the ``rounding'' field in the annual report disclosure.
+
+\paragraph{Temporal coverage.} We extract loan data for the latest available fiscal year per coal company, which is predominantly 2024. Some smaller or delisted companies have latest data from 2022 or 2023. The exposure matrix is therefore a cross-section reflecting the most recent available snapshot of bank-coal lending relationships, which we treat as a reasonable approximation to the current state given the relatively slow turnover of mining project finance.
+
+\paragraph{Exposure matrix construction.} The resulting bipartite network connects 13 IDX-listed banks to 27 coal companies through 53 identified bank-coal links, with a total attributed exposure of \$3.3 billion. When combined with unattributed exposures (foreign banks, syndicated facilities), total identified coal company debt reaches \$6.1 billion. Table~\ref{tab:exposure_matrix} presents the core of this matrix for the eight largest banks and eight largest coal borrowers.
+
+\input{tables/tab_05}
+
+ We validate the exposure matrix against two independent sources. First, we compare the aggregate mining loan exposure implied by the matrix with the mining loan totals reported in bank annual reports (from the sectoral loan breakdown). For the six banks with both data sources, the attributed exposure from the coal-side extraction averages 72\% of the bank-reported mining loan total, which is consistent given that the coal company data capture coal mining loans specifically while the bank-reported figure covers all mining subsectors (including nickel, tin, gold, and other minerals). Second, we cross-check individual large exposures against publicly reported syndicated loan transactions and find broad consistency, though the absence of a comprehensive syndicated loan database for Indonesian borrowers limits the precision of this validation.
+
+
+\subsection{Macroeconomic Data}
+\label{subsec:macro_data}
+
+The macroeconomic transmission analysis of Section~\ref{sec:model3} uses the following aggregate data. Indonesia's nominal GDP is taken as \$1,319 billion (2023 estimate from the World Bank), and total government revenue as approximately \$190 billion. Coal sector fiscal contributions (tax plus royalties plus SOE dividends) are estimated at \$8.5 billion, or approximately 4.5\% of total revenue \citep{IESR2023, WorldBank2023}. Aggregate bank lending (\$463 billion in gross loans across 38 listed banks) and total banking system equity (\$87.3 billion) are computed from our bank panel. These aggregates anchor the fiscal, credit, and market transmission channels described in Section~\ref{sec:model3}.
+
+Scenario parameters (coal price paths, carbon price trajectories, and probability weights) are calibrated from the IEA World Energy Outlook 2023 \citep{IEA2023} and the NGFS Phase IV scenarios \citep{NGFS2022}, as summarised in Table~\ref{tab:scenarios}. The BAU scenario assumes coal prices declining gradually from \$130/tonne in 2025 to \$85/tonne by 2050, with minimal carbon pricing (\$10/tCO\textsubscript{2} by 2030). The 2\textdegree C scenario projects more aggressive price declines to \$35/tonne by 2050, with carbon prices rising to \$140/tCO\textsubscript{2}. The 1.5\textdegree C Net Zero scenario represents the most stringent pathway, with coal prices falling to \$15/tonne and carbon prices reaching \$250/tCO\textsubscript{2} by 2050.
+
+
+\subsection{Descriptive Statistics}
+\label{subsec:descriptive_stats}
+
+Tables~\ref{tab:coal_desc} and \ref{tab:bank_desc} present summary statistics for the coal and bank samples, respectively. Our data come from LSEG and annual reports.
+
+\input{tables/tab_01}
+\input{tables/tab_02}
+
+\paragraph{Coal companies.} The 35 coal companies exhibit substantial heterogeneity. Total assets range from \$0.2 million (BOSS) to \$6.7 billion (ADRO), with a median of \$547 million. Among the 15 companies with verified production data, annual output ranges from 2.1~Mt (MBAP) to 77.3~Mt (BUMI), and breakeven costs range from \$21.9/tonne (BUMI) to \$151.1/tonne (HRUM). Market capitalisations are highly right-skewed, with BYAN accounting for over a quarter of the aggregate. The debt-to-equity ratio is moderate overall (median 0.2), suggesting that most coal producers are not excessively leveraged, though there are notable exceptions: CUAN and BUMI have debt-to-equity ratios exceeding 2.5, indicating significant financial vulnerability to revenue declines.
+
+\paragraph{Banks.} The 38 listed banks similarly display wide dispersion. Total assets range from \$308 million (BBYB) to \$179 billion (BMRI), reflecting the extreme concentration of the Indonesian banking sector. Mining loan exposure, available for 21 banks, averages \$649 million but is dominated by BMRI's \$9.9 billion mining portfolio. The mining loan share of total lending ranges from near-zero to 13.2\%, with a median of 1.5\%. Non-performing loan ratios average 3.0\%, within the OJK's supervisory comfort range, though individual bank NPLs range up to 10.2\%.
+
+\paragraph{Data coverage.} Table~\ref{tab:data_sources} summarises the coverage of each variable across the two panels.
+
+\input{tables/tab_10}
+
+The key coverage limitation is the sparseness of production data for smaller coal companies: only 15 of 35 companies have verified production volumes from annual reports, though these 15 account for the vast majority of Indonesian coal output (390.0~Mt). Similarly, reserve data are sparsely reported, which precludes reserve-based stranding analysis and requires us to rely on production-based discounted cash flow methods. For banks, reported CARs are available for 11 of 13 coal-exposed banks from annual reports, with LSEG Tier~1 ratios providing a conservative lower bound for the remaining two. Despite these gaps, the combined dataset represents the most comprehensive firm-level picture of the coal-banking nexus in Indonesia assembled to date, covering virtually the entire listed universe of both coal producers and banks.

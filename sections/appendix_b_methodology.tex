@@ -1,0 +1,295 @@
+%% appendix_b_methodology.tex
+%% Appendix B: Methodology Appendix
+
+\section{Methodology Appendix}
+\label{sec:appendix_methodology}
+
+This appendix provides full derivations and parameter specifications for the three models presented in Sections~\ref{sec:model1}--\ref{sec:model3}.
+
+
+\subsection{Model 1: Stranded Asset Valuation}
+\label{subsec:app_model1}
+
+\subsubsection{Net Present Value Formula}
+
+For each coal company $i$ and climate scenario $s \in \{\text{BAU}, 2\text{C}, 1.5\text{C}\}$, the scenario-contingent net present value is computed as a discounted cash flow over the firm's remaining mine life $T_i$:
+
+\begin{equation}
+\label{eq:npv_full}
+\text{NPV}_{i,s} = \sum_{t=1}^{T_i} \frac{\left(P_{s,t} - C_i\right) \cdot Q_i \cdot (1 - \tau)}{(1 + r_i)^t}
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $P_{s,t}$ is the coal price in year $t$ under scenario $s$ (USD per tonne), obtained by linear interpolation between the anchor-year prices in Table~\ref{tab:scenarios};
+    \item $C_i$ is the all-in sustaining cost for firm $i$ (USD per tonne), held constant over the projection horizon;
+    \item $Q_i$ is the annual production volume for firm $i$ (million tonnes), also held constant;
+    \item $\tau = 0.22$ is the Indonesian corporate income tax rate;
+    \item $r_i$ is the firm-specific weighted average cost of capital (WACC); and
+    \item $T_i$ is the remaining mine life in years (default: 20).
+\end{itemize}
+
+The stranded value under scenario $s$ is defined as the difference in NPV relative to the business-as-usual baseline:
+
+\begin{equation}
+\label{eq:app_sv}
+\text{SV}_{i,s} = \text{NPV}_{i,\text{BAU}} - \text{NPV}_{i,s}
+\end{equation}
+
+The expected stranded value, aggregated across scenarios using probability weights, is:
+
+\begin{equation}
+\label{eq:app_expected_sv}
+\mathbb{E}[\text{SV}_i] = \pi_{2C} \cdot \text{SV}_{i,2C} + \pi_{1.5C} \cdot \text{SV}_{i,1.5C}
+\end{equation}
+
+\noindent where $\pi_{\text{BAU}} = 0.30$, $\pi_{2C} = 0.40$, and $\pi_{1.5C} = 0.30$ are the scenario probability weights. Note that the BAU scenario contributes zero to expected stranding by construction.
+
+
+\subsubsection{Price Path Interpolation}
+
+Coal prices are specified at anchor years and linearly interpolated for intermediate years:
+
+\begin{equation}
+\label{eq:price_interp}
+P_{s,t} = P_{s,y_k} + \frac{P_{s,y_{k+1}} - P_{s,y_k}}{y_{k+1} - y_k} \cdot (t - y_k)
+\end{equation}
+
+\noindent where $y_k$ and $y_{k+1}$ are the nearest anchor years bracketing year $t$. The anchor-year prices are:
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{lccccc}
+\toprule
+Scenario & 2025 & 2030 & 2035 & 2040 & 2050 \\
+\midrule
+BAU         & \$130 & \$120 & \$110 & \$100 & \$85 \\
+2\textdegree C     & \$130 & \$90  & \$70  & \$55  & \$35 \\
+1.5\textdegree C   & \$130 & \$70  & \$45  & \$30  & \$15 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Prices beyond the last anchor year (2050) are held flat at the 2050 level. Year 1 of the DCF corresponds to calendar year 2026.
+
+
+
+\subsection{Model 2: Banking Sector Stress Test}
+\label{subsec:app_model2}
+
+\subsubsection{Coal Company Default Classification}
+
+For each coal company $i$ under scenario $s$, we assign a credit status based on the NPV and stranded value:
+
+\begin{equation}
+\label{eq:app_default_class}
+\text{Status}_{i,s} =
+\begin{cases}
+\text{Default} & \text{if } \text{NPV}_{i,s} < 0 \\
+\text{Distressed} & \text{if } \text{NPV}_{i,s} \geq 0 \text{ and } \text{SV}_{i,s} > 0.5 \cdot E_i \\
+\text{Performing} & \text{otherwise}
+\end{cases}
+\end{equation}
+
+\noindent where $E_i$ is the firm's total equity. The loss given default (LGD) for each status is:
+
+\begin{equation}
+\label{eq:app_lgd}
+\text{LGD}_{i,s} =
+\begin{cases}
+\min\!\left(1,\; \frac{|\text{NPV}_{i,s}|}{\max(D_i, 1)}\right) & \text{if Default} \\[6pt]
+0.3 \cdot \frac{\text{SV}_{i,s}}{\max(A_i, 1)} & \text{if Distressed} \\[6pt]
+0 & \text{if Performing}
+\end{cases}
+\end{equation}
+
+\noindent where $D_i$ is total debt and $A_i$ is total assets.
+
+
+\subsubsection{Direct Credit Loss}
+
+The direct credit loss for bank $b$ under scenario $s$ is:
+
+\begin{equation}
+\label{eq:app_direct_loss}
+L_{b,s}^{\text{direct}} = \sum_{i \in \mathcal{C}_b} \text{EAD}_{b,i} \cdot \text{LGD}_{i,s}
+\end{equation}
+
+\noindent where $\mathcal{C}_b$ is the set of coal companies to which bank $b$ has exposure, and $\text{EAD}_{b,i}$ is the exposure at default (taken from the exposure matrix as the outstanding loan balance in USD millions).
+
+
+\subsubsection{Indirect Credit Loss}
+
+For banks with broader mining loan portfolios exceeding their identified coal exposures, we compute an indirect loss on the residual mining portfolio:
+
+\begin{equation}
+\label{eq:app_indirect_loss}
+L_{b,s}^{\text{indirect}} = \underbrace{\left(M_b - \sum_{i \in \mathcal{C}_b} \text{EAD}_{b,i}\right)}_{\text{residual mining exposure}} \cdot \Delta \text{NPL}_s \cdot \text{LGD}_{\text{generic}}
+\end{equation}
+
+\noindent where $M_b$ is the total mining loan portfolio of bank $b$ (from the annual report sectoral breakdown), $\Delta\text{NPL}_s$ is the scenario-specific NPL shock to the broader mining portfolio, and $\text{LGD}_{\text{generic}} = 0.45$ (Basel IRB Foundation). The NPL shocks are:
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{lcc}
+\toprule
+Scenario & $\Delta\text{NPL}_s$ & Interpretation \\
+\midrule
+BAU & 0.5 pp & Marginal deterioration \\
+2\textdegree C & 5.0 pp & Moderate stress \\
+1.5\textdegree C & 15.0 pp & Severe stress \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Total bank loss is:
+
+\begin{equation}
+\label{eq:app_total_bank_loss}
+L_{b,s}^{\text{total}} = L_{b,s}^{\text{direct}} + L_{b,s}^{\text{indirect}}
+\end{equation}
+
+
+\subsubsection{Capital Adequacy Impact}
+
+The impact on the capital adequacy ratio is:
+
+\begin{equation}
+\label{eq:app_car_impact}
+\Delta\text{CAR}_{b,s} = \frac{L_{b,s}^{\text{total}}}{\text{RWA}_b}
+\end{equation}
+
+\noindent where risk-weighted assets (RWA) are estimated as $\text{RWA}_b = \text{Gross Loans}_b / 0.65$ when gross loans data are available, and $\text{RWA}_b = \text{Total Assets}_b \times 0.80$ otherwise. The post-stress CAR is:
+
+\begin{equation}
+\label{eq:app_car_after}
+\text{CAR}_{b,s}^{\text{post}} = \text{CAR}_{b}^{\text{pre}} - \Delta\text{CAR}_{b,s}
+\end{equation}
+
+A bank is flagged as breaching the OJK minimum if $\text{CAR}_{b,s}^{\text{post}} < 8\%$, and as breaching the D-SIB buffer if $\text{CAR}_{b,s}^{\text{post}} < 10.5\%$ and the bank is classified as a D-SIB.
+
+
+\subsection{Model 3: Macro-Financial Transmission}
+\label{subsec:app_model3}
+
+The macroeconomic impact is estimated through three additive channels.
+
+
+\subsubsection{Fiscal Channel}
+
+The fiscal channel captures the loss of government revenue from declining coal sector profitability:
+
+\begin{equation}
+\label{eq:app_fiscal}
+\Delta Y^{\text{fiscal}}_s = \frac{\left(\underbrace{\sum_i R_i \cdot \delta_s \cdot \tau}_{\text{tax loss}} + \underbrace{\sum_i R_i \cdot \delta_s \cdot \rho_i}_{\text{royalty loss}} + \underbrace{\text{PTBA}_{\text{div}} \cdot \delta_s}_{\text{dividend loss}}\right)}{\text{GDP}} \times \mu_{\text{fiscal}}
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $R_i$ is the revenue of coal company $i$ (USD millions);
+    \item $\delta_s = 1 - P_{s,2030} / P_{\text{BAU},2030}$ is the proportional coal price decline under scenario $s$ relative to BAU at the 2030 horizon;
+    \item $\tau = 0.22$ is the corporate income tax rate;
+    \item $\rho_i$ is the royalty rate for company $i$ (5\% or 7\%);
+    \item $\text{PTBA}_{\text{div}} = \text{Market Cap}_{\text{PTBA}} \times 0.07$ is the estimated annual PTBA dividend;
+    \item $\text{GDP} = \$1{,}319{,}000$ million; and
+    \item $\mu_{\text{fiscal}} = 0.70$ is the fiscal multiplier.
+\end{itemize}
+
+The price decline fractions are $\delta_{2C} = 1 - 90/120 = 25.0\%$ and $\delta_{1.5C} = 1 - 70/120 = 41.7\%$.
+
+
+\subsubsection{Credit Channel}
+
+The credit channel captures the macroeconomic impact of bank deleveraging following capital losses:
+
+\begin{equation}
+\label{eq:app_credit}
+\Delta Y^{\text{credit}}_s = \underbrace{\frac{\sum_b L_{b,s}^{\text{total}} \times \kappa}{\sum_b \text{Gross Loans}_b}}_{\text{credit contraction (\%)}} \times \eta
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $L_{b,s}^{\text{total}}$ is the total loss for bank $b$ under scenario $s$ from the stress test;
+    \item $\kappa = 8$ is the credit multiplier (bank capital loss to credit contraction ratio), calibrated following \citet{GambacortaMarques2011};
+    \item $\sum_b \text{Gross Loans}_b = \$462{,}897$ million is aggregate bank lending; and
+    \item $\eta = 0.06$ is the credit-to-GDP elasticity (a 1 percentage point credit contraction reduces GDP by 0.06 percentage points), calibrated from \citet{PeekRosengren2000}.
+\end{itemize}
+
+
+\subsubsection{Market Channel}
+
+The market (wealth effect) channel captures the consumption impact of equity value destruction:
+
+\begin{equation}
+\label{eq:app_market}
+\Delta Y^{\text{market}}_s = \frac{\sum_i \text{MktCap}_i \cdot \phi_{i,s} + \sum_b \text{MktCap}_b \cdot \psi_{b,s}}{\text{GDP}} \times \omega
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item $\phi_{i,s} = \min\!\left(\text{SV}_{i,s} / \text{NPV}_{i,\text{BAU}},\; 1\right)$ is the fractional market cap loss for coal company $i$;
+    \item $\psi_{b,s} = \min\!\left(L_{b,s}^{\text{total}} / E_b,\; 1\right)$ is the fractional market cap loss for bank $b$, proportional to the equity loss fraction;
+    \item $\text{MktCap}_i$ and $\text{MktCap}_b$ are market capitalisations (USD millions); and
+    \item $\omega = 0.03$ is the marginal propensity to consume out of wealth (wealth effect coefficient).
+\end{itemize}
+
+
+\subsubsection{Total GDP Impact}
+
+The total GDP impact is the sum of the three channels:
+
+\begin{equation}
+\label{eq:app_total_gdp}
+\Delta Y_s^{\text{total}} = \Delta Y^{\text{fiscal}}_s + \Delta Y^{\text{credit}}_s + \Delta Y^{\text{market}}_s
+\end{equation}
+
+All GDP impacts are expressed in percentage points. The channel decomposition for each scenario is reported in Table~\ref{tab:macro_impact}.
+
+
+\subsection{Parameter Summary}
+\label{subsec:param_summary}
+
+Table~\ref{tab:params} consolidates all model parameters and their sources.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of Model Parameters}
+\label{tab:params}
+\footnotesize
+\begin{tabular}{p{4cm}lll}
+\toprule
+Parameter & Symbol & Value & Source \\
+\midrule
+\multicolumn{4}{l}{\textit{Model 1: Stranded Assets}} \\[2pt]
+Corporate tax rate & $\tau$ & 22\% & Indonesian tax law \\
+Stranding risk premium & -- & 3 pp & \citet{Edwards2022} \\
+Mine life (default) & $T_i$ & 20 years & IUP concession standard \\
+MC simulations & $N$ & 10{,}000 & -- \\
+MC seed & -- & 42 & -- \\
+Dirichlet concentration & $\boldsymbol{\alpha}$ & (3, 4, 3) & Calibrated \\
+\\[2pt]
+\multicolumn{4}{l}{\textit{Model 2: Bank Stress Test}} \\[2pt]
+Generic LGD & $\text{LGD}_{\text{generic}}$ & 45\% & Basel IRB Foundation \\
+OJK minimum CAR & -- & 8\% & OJK Regulation \\
+D-SIB CAR buffer & -- & 10.5\% & OJK D-SIB regulation \\
+$\Delta$NPL (BAU) & -- & 0.5 pp & Calibrated \\
+$\Delta$NPL (2\textdegree C) & -- & 5.0 pp & Calibrated \\
+$\Delta$NPL (1.5\textdegree C) & -- & 15.0 pp & Calibrated \\
+\\[2pt]
+\multicolumn{4}{l}{\textit{Model 3: Macro Transmission}} \\[2pt]
+Indonesia GDP & -- & \$1,319B & World Bank (2023) \\
+Government revenue & -- & \$190B & Ministry of Finance \\
+Fiscal multiplier & $\mu_{\text{fiscal}}$ & 0.70 & Calibrated \\
+Credit multiplier & $\kappa$ & 8$\times$ & \citet{GambacortaMarques2011} \\
+Credit-GDP elasticity & $\eta$ & 0.06 & \citet{PeekRosengren2000} \\
+Wealth effect (MPC) & $\omega$ & 0.03 & Standard estimate \\
+PTBA dividend yield & -- & 7\% & Historical average \\
+FX rate (IDR/USD) & -- & 15{,}800 & Bank Indonesia \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\noindent \textit{Notes:} pp = percentage points. IRB = internal ratings-based approach. MPC = marginal propensity to consume. LGD = loss given default. CAR = capital adequacy ratio. The credit multiplier represents the inverse of the marginal capital requirement: a \$1 loss in bank capital leads to an \$8 contraction in credit supply, consistent with a 12.5\% leverage ratio (1/0.125 $\approx$ 8). The wealth effect coefficient of 0.03 implies that a \$1 decline in household financial wealth reduces consumption by \$0.03, in line with the empirical literature.
+\end{table}

@@ -1,0 +1,36 @@
+{
+  "run_timestamp": "2026-02-14T00:00:00+07:00",
+  "n_eligible_firms": 15,
+  "eligible_tickers": [
+    "AADI", "ARII", "BSSR", "BUMI", "BYAN",
+    "GEMS", "HRUM", "INDY", "ITMG", "KKGI",
+    "MBAP", "MCOL", "PTBA", "SMMT", "TOBA"
+  ],
+  "new_firms_added": ["ARII", "KKGI", "MCOL"],
+  "previous_n_firms": 12,
+  "previous_archive": "v20260213_12firms/",
+  "pipeline_scripts": [
+    "01_clean_coal_data.py",
+    "02_clean_bank_data.py",
+    "03_build_exposure_matrix.py",
+    "04_model1_stranded_assets.py",
+    "05_model2_bank_stress.py",
+    "06_model3_macro_transmission.py",
+    "07_figures.py",
+    "08_tables.py",
+    "09_robustness.py"
+  ],
+  "key_results": {
+    "total_verified_production_mt": 390.0,
+    "sv_2c_median_usd_m": 79731.9,
+    "sv_1_5c_median_usd_m": 128288.6,
+    "expected_sv_median_usd_m": 70375.6,
+    "bank_loss_2c_usd_m": 1848.5,
+    "bank_loss_1_5c_usd_m": 3146.8,
+    "gdp_impact_2c_pct": 0.3218,
+    "gdp_impact_1_5c_pct": 0.5361,
+    "defaults_2c": 3,
+    "defaults_1_5c": 5
+  },
+  "notes": "Expanded from 12 to 15 firms by adding ARII (7.57 Mt), KKGI (5.92 Mt), MCOL (10.08 Mt). SGER and CUAN excluded (no AR-verified production). All production data from annual reports."
+}

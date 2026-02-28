@@ -1,0 +1,201 @@
+%% appendix_d_replication.tex
+%% Appendix D: Replication Guide
+
+\section{Replication Guide}
+\label{sec:appendix_replication}
+
+This appendix describes the computational pipeline for replicating all results in this paper. The analysis is implemented in Python and consists of a sequentially numbered set of scripts that transform raw data into the tables, figures, and output files referenced throughout the text.
+
+
+\subsection{Software Requirements}
+\label{subsec:software}
+
+The analysis was conducted using the following software environment:
+
+\begin{table}[H]
+\centering
+\footnotesize
+\begin{tabular}{lll}
+\toprule
+Software & Version & Purpose \\
+\midrule
+Python & 3.10+ & Core analysis language \\
+NumPy & 1.24+ & Array operations, Monte Carlo simulation \\
+Pandas & 2.0+ & Data manipulation, panel construction \\
+SciPy & 1.11+ & Statistical distributions, optimisation \\
+Matplotlib & 3.7+ & Figure generation \\
+Seaborn & 0.12+ & Statistical visualisation \\
+NetworkX & 3.1+ & Bipartite network construction \\
+Statsmodels & 0.14+ & VAR estimation, statistical tests \\
+Scikit-learn & 1.3+ & Preprocessing utilities \\
+\LaTeX{} & TeX Live 2025 & Document compilation \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent All Python packages can be installed via \texttt{pip3 install numpy pandas scipy matplotlib seaborn networkx statsmodels sklearn}.
+
+
+\subsection{Data Access}
+\label{subsec:data_access}
+
+The analysis draws on three categories of data:
+
+\paragraph{LSEG Refinitiv data (commercial license required).} Coal company financial statements, market data, ESG scores, and bank market data are obtained through the LSEG Datastream API using the \texttt{lseg-data} Python package. Access requires a valid LSEG Workspace or Eikon license. The API configuration file is stored at:
+
+\smallskip
+\noindent\texttt{Data/lseg-data.config.json}
+
+\paragraph{Bank annual reports (publicly available).} Bank financial statements, mining loan breakdowns, and loan-by-company disclosures are hand-extracted from published annual reports (Laporan Tahunan) available through the IDX website (\texttt{idx.co.id}) and individual bank investor relations pages. The extracted data are stored as CSV files in:
+
+\smallskip
+\noindent\texttt{Data/Bank/bank/annual report/}
+
+\paragraph{Macroeconomic data (publicly available).} GDP, government revenue, and other macroeconomic indicators are obtained from Statistics Indonesia (BPS), the World Bank, and Bank Indonesia publications. Scenario parameters (coal and carbon price paths) are calibrated from IEA World Energy Outlook 2023 and NGFS Phase IV scenarios.
+
+
+\subsection{Directory Structure}
+\label{subsec:directory}
+
+The project follows this directory structure:
+
+\begin{small}
+\begin{verbatim}
+Stranded Asset/
+  Data/
+    Coal/project/output/       # Raw LSEG coal data (CSV)
+    Bank/bank/output/          # Raw LSEG bank data (CSV)
+    Bank/bank/annual report/   # Extracted bank FS data (CSV)
+    lseg-data.config.json      # LSEG API configuration
+  Paper/
+    scripts/                   # Analysis scripts (00-09)
+    output/                    # Intermediate outputs (CSV)
+    figures/                   # Publication figures (PDF)
+    tables/                    # LaTeX table files (TEX)
+    sections/                  # LaTeX section files (TEX)
+    references.bib             # BibTeX references
+    main.tex                   # Master document
+\end{verbatim}
+\end{small}
+
+
+\subsection{Script Descriptions}
+\label{subsec:scripts}
+
+The analysis pipeline consists of the following scripts, to be executed in order. Each script imports configuration from \texttt{00\_setup.py} and writes output to the \texttt{output/} directory.
+
+\begin{longtable}{p{4cm}p{9.5cm}}
+\toprule
+Script & Description \\
+\midrule
+\endfirsthead
+\toprule
+Script & Description \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+
+\texttt{00\_setup.py} &
+\textbf{Project configuration.} Defines all file paths, constants (scenario parameters, tax rates, Monte Carlo settings, exchange rates), figure styling, and colour palettes. Verifies that all required packages and data paths are available. All subsequent scripts import from this module.
+
+\textit{Key constants:} \texttt{SCENARIOS} (BAU/2C/1.5C price paths and probabilities), \texttt{CORPORATE\_TAX\_RATE} (0.22), \texttt{LGD\_GENERIC} (0.45), \texttt{OJK\_CAR\_MINIMUM} (0.08), \texttt{DSIB\_CAR\_BUFFER} (0.105), \texttt{MC\_SEED} (42), \texttt{MC\_N\_SIMULATIONS} (10,000), \texttt{FX\_IDR\_USD} (15,800). \\[8pt]
+
+\texttt{01\_clean\_coal\_data.py} &
+\textbf{Coal data cleaning and merging.} Reads seven source CSV files from LSEG (derived variables, operational template, cost of capital, balance sheet, income statement, ESG emissions, company profiles), strips \texttt{.JK} suffixes from tickers, extracts the latest fiscal year per company, and merges into a single panel. Computes derived columns: debt-to-equity ratio, stranded flags, and SV as percentage of assets.
+
+\textit{Output:} \texttt{output/clean\_coal\_panel.csv} (35 firms, 47 columns). \\[8pt]
+
+\texttt{02\_clean\_bank\_data.py} &
+\textbf{Bank data cleaning and harmonisation.} Reads bank financial statement data (extracted from annual reports) and LSEG market/risk data. Performs scale detection and harmonisation to convert heterogeneous IDR denominations to USD millions, validated against LSEG reference values. Merges cost of capital (WACC, beta), market capitalisation, and stock volatility. Computes derived ratios (LDR, equity ratio, mining loan share) and assigns size categories.
+
+\textit{Output:} \texttt{output/clean\_bank\_panel.csv} (38 banks, 40 columns). \\[8pt]
+
+\texttt{03\_build\_exposure\_matrix.py} &
+\textbf{Bank-coal exposure matrix.} Reads loan-by-bank data from coal company annual report disclosures. Maps bank names to IDX tickers using exact and fuzzy string matching. Converts loan amounts from mixed currencies and scales to USD millions. Filters to latest year per company, aggregates by bank-coal pair, and pivots to a matrix format.
+
+\textit{Outputs:} \texttt{output/exposure\_matrix.csv} (13 banks $\times$ 27 coal companies), \texttt{output/exposure\_summary.csv} (per-company attribution). \\[8pt]
+
+\texttt{04\_model1\_stranded\_assets.py} &
+\textbf{Model 1: Stranded asset valuation with Monte Carlo.} Validates existing NPV calculations, then runs 10,000 Monte Carlo simulations per firm, drawing production, cost, mine life, WACC, and scenario probabilities from specified distributions. Computes per-firm percentile distributions and aggregates sector-wide. Also produces the supply cost curve (sorted by breakeven).
+
+\textit{Outputs:} \texttt{output/stranded\_values\_mc.csv}, \texttt{output/aggregate\_sv\_mc.csv}, \texttt{output/supply\_cost\_curve\_final.csv}. \\[8pt]
+
+\texttt{05\_model2\_bank\_stress.py} &
+\textbf{Model 2: Banking sector stress test.} Classifies coal companies as default, distressed, or performing under each scenario. Computes direct credit losses from the bipartite exposure network using firm-specific LGD. Adds indirect losses on residual mining portfolios via scenario-specific NPL shocks. Calculates CAR impacts, breach flags, and profitability impacts.
+
+\textit{Outputs:} \texttt{output/coal\_default\_status.csv}, \texttt{output/bank\_stress\_results.csv}, \texttt{output/stress\_test\_summary.csv}. \\[8pt]
+
+\texttt{06\_model3\_macro\_transmission.py} &
+\textbf{Model 3: Macro-financial transmission.} Computes GDP impact through three channels: fiscal (tax, royalty, and PTBA dividend losses), credit (bank deleveraging from capital losses with 8$\times$ multiplier), and market (equity value destruction via wealth effect). Produces per-channel and aggregate summaries.
+
+\textit{Outputs:} \texttt{output/macro\_channel\_details.csv}, \texttt{output/macro\_impact\_summary.csv}. \\[8pt]
+
+\texttt{07\_figures.py} &
+\textbf{Figure generation.} Produces all publication-quality figures (PDF vector format) using Matplotlib and Seaborn with the colorblind-safe palette defined in \texttt{00\_setup.py}. Includes: supply cost curve (fig\_01), NPV distributions (fig\_02), Monte Carlo distributions (fig\_03--04), bipartite network visualisation (fig\_05), bank loss distributions (fig\_06--07), macro channel decomposition (fig\_08--09), and sensitivity analysis (fig\_10--12).
+
+\textit{Outputs:} \texttt{figures/fig\_01.pdf} through \texttt{figures/fig\_12.pdf}. \\[8pt]
+
+\texttt{09\_robustness.py} &
+\textbf{Robustness checks.} Re-runs the analysis pipeline under alternative assumptions: $\pm$2 pp discount rate, $\pm$15\% production cost, alternative LGD (0.55), and alternative credit multiplier (12$\times$). Produces a sensitivity table comparing baseline and alternative results.
+
+\textit{Output:} \texttt{output/robustness/} (scenario-specific CSV files). \\
+\end{longtable}
+
+
+\subsection{Execution Instructions}
+\label{subsec:execution}
+
+To replicate all results from source data:
+
+\begin{enumerate}
+    \item \textbf{Verify environment.} Run \texttt{python3 scripts/00\_setup.py} to confirm that all required packages are installed and data paths are accessible.
+
+    \item \textbf{Clean data.} Execute the data cleaning scripts in order:
+    \begin{verbatim}
+    python3 scripts/01_clean_coal_data.py
+    python3 scripts/02_clean_bank_data.py
+    python3 scripts/03_build_exposure_matrix.py
+    \end{verbatim}
+    These scripts read from the \texttt{Data/} directory and write intermediate outputs to \texttt{Paper/output/}.
+
+    \item \textbf{Run models.} Execute the three model scripts sequentially (each depends on outputs from earlier scripts):
+    \begin{verbatim}
+    python3 scripts/04_model1_stranded_assets.py
+    python3 scripts/05_model2_bank_stress.py
+    python3 scripts/06_model3_macro_transmission.py
+    \end{verbatim}
+
+    \item \textbf{Generate figures.} Run the figure generation script:
+    \begin{verbatim}
+    python3 scripts/07_figures.py
+    \end{verbatim}
+
+    \item \textbf{Run robustness checks.} Execute the sensitivity analysis:
+    \begin{verbatim}
+    python3 scripts/09_robustness.py
+    \end{verbatim}
+
+    \item \textbf{Compile \LaTeX{} document.} From the \texttt{Paper/} directory:
+    \begin{verbatim}
+    pdflatex main.tex
+    bibtex main
+    pdflatex main.tex
+    pdflatex main.tex
+    \end{verbatim}
+    Three passes of \texttt{pdflatex} are required to resolve cross-references and citations.
+\end{enumerate}
+
+
+\subsection{Reproducibility Notes}
+\label{subsec:reproducibility}
+
+\paragraph{Random seed.} All stochastic elements (Monte Carlo simulations, Dirichlet draws) use a fixed random seed of 42 via NumPy's \texttt{default\_rng(42)}, ensuring exact reproducibility of all simulation-based results.
+
+\paragraph{Exchange rate.} All IDR-to-USD conversions use a fixed rate of IDR 15,800 per USD. This rate is hardcoded in \texttt{00\_setup.py} to ensure consistency across all scripts and can be updated by modifying the \texttt{FX\_IDR\_USD} constant.
+
+\paragraph{Data vintage.} Results are based on the latest available data as of the extraction date. Coal company data are predominantly from fiscal year 2024, with some firms reporting 2023 or 2025 interim data. Bank data are similarly from the most recent annual report per institution. Minor discrepancies between our figures and subsequently revised data releases are expected.
+
+\paragraph{Computational requirements.} The full pipeline (excluding data download) runs in approximately 5--10 minutes on a modern laptop with 8 GB RAM. The Monte Carlo simulation (10,000 draws $\times$ 35 firms $\times$ 3 scenarios) is the most computationally intensive step but is vectorised using NumPy and completes in under 30 seconds.
+
+\paragraph{Table and figure generation.} LaTeX tables (\texttt{tables/tab\_01.tex} through \texttt{tables/tab\_10.tex}) are generated by the \texttt{07\_figures.py} script and should not be edited manually, as they will be overwritten on the next run. Figures are saved as PDF vector graphics at 300 DPI with \texttt{bbox\_inches='tight'}.

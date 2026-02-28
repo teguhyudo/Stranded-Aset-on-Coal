@@ -1,0 +1,108 @@
+%% appendix_a_data.tex
+%% Appendix A: Data Appendix
+
+\section{Data Appendix}
+\label{sec:appendix_data}
+
+This appendix provides followed by a summary of data coverage across the two panels (Table~\ref{tab:data_coverage_detail_full}).
+
+
+\subsection{Detailed Data Coverage}
+\label{subsec:data_coverage_detail}
+
+Table~\ref{tab:data_coverage_detail_full} summarises the coverage rate for each key variable, defined as the proportion of firms (out of 35 coal companies or 38 banks) with non-missing, non-zero values.
+
+\begin{table}[htbp]
+\centering
+\caption{Detailed Data Coverage by Variable}
+\label{tab:data_coverage_detail_full}
+\footnotesize
+\begin{tabular}{llrrl}
+\toprule
+Panel & Variable & Available & Total & Coverage \\
+\midrule
+\multicolumn{5}{l}{\textit{Coal Companies}} \\[2pt]
+ & Production (Mt) & 28 & 35 & 80.0\% \\
+ & Breakeven cost (USD/t) & 28 & 35 & 80.0\% \\
+ & Cash cost (USD/t) & 28 & 35 & 80.0\% \\
+ & WACC (base) & 28 & 35 & 80.0\% \\
+ & Total assets & 35 & 35 & 100.0\% \\
+ & Total equity & 35 & 35 & 100.0\% \\
+ & Revenue & 10 & 35 & 28.6\% \\
+ & EBITDA & 15 & 35 & 42.9\% \\
+ & Market capitalisation & 35 & 35 & 100.0\% \\
+ & ESG scores & 12 & 35 & 34.3\% \\
+ & Calorific value & 35 & 35 & 100.0\% \\
+ & Coal rank & 35 & 35 & 100.0\% \\
+\\[4pt]
+\multicolumn{5}{l}{\textit{Banks}} \\[2pt]
+ & Total assets & 38 & 38 & 100.0\% \\
+ & Total equity & 38 & 38 & 100.0\% \\
+ & Gross loans & 38 & 38 & 100.0\% \\
+ & Net income & 34 & 38 & 89.5\% \\
+ & Mining loans & 21 & 38 & 55.3\% \\
+ & NPL amount & 19 & 38 & 50.0\% \\
+ & Market capitalisation & 38 & 38 & 100.0\% \\
+ & Beta (5-year) & 38 & 38 & 100.0\% \\
+ & Tier 1 ratio & 7 & 38 & 18.4\% \\
+ & ROA & 34 & 38 & 89.5\% \\
+ & NIM & 34 & 38 & 89.5\% \\
+\bottomrule
+\end{tabular}
+
+\smallskip
+\noindent \textit{Notes:} Coverage is defined as the number of firms with non-missing, non-zero values for each variable. Coal company data are from LSEG Datastream and company annual reports. Bank data are from OJK filings, annual reports, and LSEG Datastream. ESG scores are limited to large-capitalisation firms covered by the LSEG ESG rating universe. Tier 1 ratio coverage is limited because most Indonesian banks report CAR only in OJK regulatory filings, which are not systematically available in machine-readable form.
+\end{table}
+
+
+\subsection{Exposure Matrix: Full Attribution Detail}
+\label{subsec:exposure_detail}
+
+Table~\ref{tab:exposure_attribution} provides the attribution rate (percentage of total company debt attributed to specific IDX-listed banks) for each of the 27 coal companies with identified bank exposures, along with the number of identified bank counterparties and the list of lending banks.
+
+\begin{longtable}{p{1.2cm}p{4.5cm}rrp{4.5cm}}
+\caption{Bank-Coal Exposure Attribution by Coal Company} \label{tab:exposure_attribution} \\
+\toprule
+Ticker & Total Debt (\$M) & Attributed (\%) & Banks ($N$) & Identified Banks \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\textit{Table~\ref{tab:exposure_attribution} continued}} \\
+\toprule
+Ticker & Total Debt (\$M) & Attributed (\%) & Banks ($N$) & Identified Banks \\
+\midrule
+\endhead
+\midrule
+\multicolumn{5}{r}{\textit{Continued on next page}} \\
+\endfoot
+\bottomrule
+\\[-6pt]
+\multicolumn{5}{p{13.3cm}}{\footnotesize \textit{Notes:} Total debt is the sum of all identified bank borrowings (IDX-listed and unattributed) from the coal company's annual report. Attribution rate = attributed exposure to IDX-listed banks / total debt. Companies with 0\% attribution have borrowings exclusively from foreign banks, non-bank lenders, or syndicated facilities where IDX bank participations could not be identified. Data reflect the latest available fiscal year (predominantly 2024).} \\
+\endlastfoot
+DSSA  & 870.9 & 99.0 & 5 & BBCA, BBNI, BBRI, BMRI, BRIS \\
+CUAN  & 704.9 & 72.3 & 3 & BBCA, BBNI, BMRI \\
+AADI  & 691.3 & 1.5  & 2 & BBCA, BNLI \\
+DOID  & 579.8 & 94.8 & 1 & BBNI \\
+INDY  & 575.4 & 7.7  & 4 & BBCA, BBKP, BMRI, NISP \\
+ADRO  & 472.8 & 0.0  & 0 & -- \\
+BYAN  & 337.5 & 100.0 & 3 & BBCA, BMRI, BNLI \\
+TOBA  & 311.1 & 62.5 & 3 & BBCA, BBRI, BMRI \\
+HRUM  & 311.0 & 0.0  & 0 & -- \\
+ADMR  & 298.9 & 0.0  & 0 & -- \\
+GEMS  & 282.1 & 100.0 & 3 & BBNI, BBRI, BMRI \\
+BUMI  & 158.2 & 100.0 & 4 & BBNI, BBRI, BNLI, MEGA \\
+ABMM  & 107.2 & 62.0 & 4 & BBCA, BBRI, BMRI, NISP \\
+ARII  & 98.3  & 38.5 & 2 & BDMN, BNLI \\
+PTBA  & 88.5  & 100.0 & 2 & BBNI, BBRI \\
+ITMG  & 69.9  & 87.1 & 3 & BBNI, BNGA, BNLI \\
+SGER  & 66.0  & 42.5 & 4 & BBCA, BBKP, BBRI, BNLI \\
+IATA  & 15.3  & 80.7 & 1 & MAYA \\
+ITMA  & 15.1  & 45.0 & 1 & BMRI \\
+CNKO  & 11.1  & 0.0  & 0 & -- \\
+COAL  & 8.2   & 100.0 & 1 & BBCA \\
+DEWA  & 6.9   & 100.0 & 1 & BBRI \\
+DWGL  & 6.7   & 100.0 & 1 & BBRI \\
+BSSR  & 2.8   & 100.0 & 1 & BNGA \\
+BESS  & 1.8   & 86.8 & 1 & BMRI \\
+BOSS  & 0.3   & 100.0 & 1 & PNBN \\
+KKGI  & 0.2   & 0.0  & 0 & -- \\
+\end{longtable}

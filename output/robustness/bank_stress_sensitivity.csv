@@ -1,0 +1,16 @@
+specification,lgd_generic,default_threshold,include_indirect,scenario,total_direct_loss_usd_m,total_indirect_loss_usd_m,total_loss_usd_m,loss_pct_equity,avg_car_impact_pp
+"Baseline (LGD=0.45, NPV<0, incl indirect)",0.45,npv_lt_0,True,BAU,9.18,25.4,34.58,0.0332,0.0049
+"Baseline (LGD=0.45, NPV<0, incl indirect)",0.45,npv_lt_0,True,2C,1594.47,254.02,1848.49,1.7743,0.2599
+"Baseline (LGD=0.45, NPV<0, incl indirect)",0.45,npv_lt_0,True,1.5C,2384.75,762.06,3146.82,3.0205,0.4424
+LGD low (0.35),0.35,npv_lt_0,True,BAU,9.18,19.76,28.94,0.0278,0.0041
+LGD low (0.35),0.35,npv_lt_0,True,2C,1594.47,197.57,1792.04,1.7201,0.2519
+LGD low (0.35),0.35,npv_lt_0,True,1.5C,2384.75,592.72,2977.47,2.8579,0.4186
+LGD high (0.55),0.55,npv_lt_0,True,BAU,9.18,31.05,40.23,0.0386,0.0057
+LGD high (0.55),0.55,npv_lt_0,True,2C,1594.47,310.47,1904.94,1.8285,0.2678
+LGD high (0.55),0.55,npv_lt_0,True,1.5C,2384.75,931.41,3316.17,3.183,0.4662
+Default threshold: NPV < -10% assets,0.45,npv_lt_minus10pct,True,BAU,0.0,25.4,25.4,0.0244,0.0036
+Default threshold: NPV < -10% assets,0.45,npv_lt_minus10pct,True,2C,1594.47,254.02,1848.49,1.7743,0.2599
+Default threshold: NPV < -10% assets,0.45,npv_lt_minus10pct,True,1.5C,2384.75,762.06,3146.82,3.0205,0.4424
+Exclude indirect mining losses,0.45,npv_lt_0,False,BAU,9.18,0.0,9.18,0.0088,0.0013
+Exclude indirect mining losses,0.45,npv_lt_0,False,2C,1594.47,0.0,1594.47,1.5304,0.2242
+Exclude indirect mining losses,0.45,npv_lt_0,False,1.5C,2384.75,0.0,2384.75,2.289,0.3353
