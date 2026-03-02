@@ -4,7 +4,7 @@
 \section{Methodology Appendix}
 \label{sec:appendix_methodology}
 
-This appendix provides full derivations and parameter specifications for the three models presented in Sections~\ref{sec:model1}--\ref{sec:model3}.
+This appendix provides full derivations and parameter specifications for the three models presented in Sections~\ref{sec:model1}, \ref{sec:model2}, and~\ref{sec:model3}.
 
 
 \subsection{Model 1: Stranded Asset Valuation}
@@ -16,16 +16,16 @@ For each coal company $i$ and climate scenario $s \in \{\text{BAU}, 2\text{C}, 1
 
 \begin{equation}
 \label{eq:npv_full}
-\text{NPV}_{i,s} = \sum_{t=1}^{T_i} \frac{\left(P_{s,t} - C_i\right) \cdot Q_i \cdot (1 - \tau)}{(1 + r_i)^t}
+\text{NPV}_{i,s} = \sum_{t=1}^{T_i} \frac{\left(P_{s,t} - C_i\right) \cdot Q_{i,t} \cdot (1 - \tau)}{(1 + r_i)^t}
 \end{equation}
 
 \noindent where:
 \begin{itemize}
     \item $P_{s,t}$ is the coal price in year $t$ under scenario $s$ (USD per tonne), obtained by linear interpolation between the anchor-year prices in Table~\ref{tab:scenarios};
     \item $C_i$ is the all-in sustaining cost for firm $i$ (USD per tonne), held constant over the projection horizon;
-    \item $Q_i$ is the annual production volume for firm $i$ (million tonnes), also held constant;
+    \item $Q_{i,t} = Q_i \cdot (1 - d)^{t-1}$ is the production volume for firm $i$ in year $t$ (million tonnes), declining at an annual rate of $d = 0.02$ (2\%) to reflect natural reserve depletion and mine maturation;
     \item $\tau = 0.22$ is the Indonesian corporate income tax rate;
-    \item $r_i$ is the firm-specific weighted average cost of capital (WACC); and
+    \item $r_i$ is the firm-specific weighted average cost of capital (WACC), inclusive of a stranding risk premium; and
     \item $T_i$ is the remaining mine life in years (default: 20).
 \end{itemize}
 

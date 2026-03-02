@@ -12,9 +12,8 @@ from pathlib import Path
 # ============================================================
 # PROJECT PATHS
 # ============================================================
-BASE_DIR = Path("/Users/yudo/Library/CloudStorage/OneDrive-UIII/VIRIYA/Stranded Asset")
-PAPER_DIR = BASE_DIR / "Paper"
-DATA_DIR = BASE_DIR / "Data"
+DATA_DIR = Path("/Users/yudo/Library/CloudStorage/OneDrive-UIII/VIRIYA/Stranded Asset/Data")
+PAPER_DIR = Path("/Users/yudo/Projects/Stranded-Asset-Paper")
 
 # Data source directories
 COAL_OUTPUT = DATA_DIR / "Coal" / "project" / "output"

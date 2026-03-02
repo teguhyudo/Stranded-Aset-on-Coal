@@ -1,4 +1,4 @@
-scenario,scenario_label,n_coal_default,n_coal_distressed,n_coal_performing,total_direct_loss_usd_m,total_indirect_loss_usd_m,total_loss_usd_m,total_bank_equity_usd_m,loss_pct_system_equity,n_banks_breach_ojk_car,n_banks_breach_dsib_buffer,equity_at_risk_usd_m,avg_car_impact_pp,max_car_impact_pp,avg_profit_impact_pct,max_profit_impact_pct
-BAU,Business-as-Usual,2,0,13,9.18,25.4,34.58,87323.08,0.0396,0,0,0.0,0.0046,0.0186,0.18,0.73
-2C,2°C Paris-aligned,3,12,0,1594.47,254.02,1848.49,87323.08,2.1168,0,0,0.0,0.1609,0.5076,7.07,24.07
-1.5C,1.5°C Net Zero,5,10,0,2384.75,762.06,3146.82,87323.08,3.6036,0,0,0.0,0.3062,1.0027,12.6,42.37
+scenario,scenario_label,n_coal_default,n_coal_distressed,n_coal_performing,total_direct_loss_usd_m,total_indirect_loss_usd_m,total_loss_usd_m,total_bank_equity_usd_m,loss_pct_system_equity,n_banks_breach_ojk_car,n_banks_breach_dsib_buffer,avg_car_impact_pp,max_car_impact_pp,avg_profit_impact_pct,max_profit_impact_pct
+BAU,Business-as-Usual,3,0,23,104.1,25.4,129.5,87323.08,0.1483,0,0,0.0147,0.0568,0.55,2.35
+2C,2°C Paris-aligned,5,18,3,1553.86,254.02,1807.88,87323.08,2.0703,0,0,0.2014,0.557,6.9,22.99
+1.5C,1.5°C Net Zero,10,14,2,2399.5,762.06,3161.56,87323.08,3.6205,0,0,0.332,0.9177,12.74,43.52

@@ -8,18 +8,29 @@
 Assumption & SV 2\textdegree{}C & SV 1.5\textdegree{}C & Bank Loss & GDP Impact \\
  & (\$B) & (\$B) & (\$M) & (\%) \\
 \midrule
-  \textbf{Baseline} & \textbf{79.8} & \textbf{128.3} & \textbf{3,147} & \textbf{0.54\%} \\
-  +2pp discount rate & 67.0 & 108.1 & 3,147 & 0.54\% \\
-  $-$2pp discount rate & 96.1 & 154.2 & 3,147 & 0.54\% \\
-  +10\% production volume & 87.7 & 141.2 & 3,147 & 0.54\% \\
-  $-$10\% production volume & 71.8 & 115.5 & 3,147 & 0.54\% \\
-  Coal price path +15\% & 91.7 & 147.6 & 3,147 & 0.54\% \\
-  Coal price path $-$15\% & 67.8 & 109.1 & 3,147 & 0.54\% \\
-  Alternative LGD (0.55) & 79.8 & 128.3 & 3,316 & 0.54\% \\
-  Alternative credit mult.~(12$\times$) & 79.8 & 128.3 & 3,147 & 0.70\% \\
+  \multicolumn{5}{l}{\textit{Panel A: Parameter sensitivity}} \\
+  \textbf{Baseline (26 firms)} & \textbf{60.1} & \textbf{99.2} & \textbf{3,162} & \textbf{0.62\%} \\
+  +2pp discount rate & 51.9 & 85.7 & 3,162 & 0.62\% \\
+  $-$2pp discount rate & 70.8 & 116.8 & 3,162 & 0.62\% \\
+  +10\% production volume & 66.1 & 109.1 & 3,162 & 0.62\% \\
+  $-$10\% production volume & 54.1 & 89.3 & 3,162 & 0.62\% \\[4pt]
+  \multicolumn{5}{l}{\textit{Panel B: Mine life sensitivity}} \\
+  Mine life $T = 10$ years & 36.3 & 60.5 & --- & --- \\
+  Mine life $T = 15$ years & 48.7 & 81.0 & --- & --- \\
+  Mine life $T = 20$ years (baseline) & 56.0 & 92.6 & --- & --- \\
+  Mine life $T = 25$ years & 60.4 & 99.2 & --- & --- \\[4pt]
+  \multicolumn{5}{l}{\textit{Panel C: DMO and default specification}} \\
+  No DMO (baseline) & 56.0 & 92.6 & --- & --- \\
+  DMO \$70/t on 25\% domestic & 54.5 & 85.7 & --- & --- \\
+  Alt.~default (NPV$<$0 \textit{and} cash/debt$<$0.5) & --- & --- & 2,780 & --- \\[4pt]
+  \multicolumn{5}{l}{\textit{Panel D: Bank stress test sensitivity}} \\
+  Alternative LGD (0.55) & 60.1 & 99.2 & 3,316 & 0.62\% \\
+  NPL shock 7.5\% (vs.~15\%) & 60.1 & 99.2 & 2,781 & --- \\
+  Exclude indirect losses & 60.1 & 99.2 & 2,400 & --- \\
+  Alternative credit mult.~(12$\times$) & 60.1 & 99.2 & 3,162 & 0.81\% \\
 \bottomrule
 \end{tabular}
 
 \smallskip
-\noindent \textit{Notes:} SV = aggregate stranded value in USD billions. Bank Loss = total banking sector losses in USD millions under the 1.5\textdegree{}C scenario. GDP Impact = total GDP impact under 1.5\textdegree{}C. Baseline uses a 10\% WACC, LGD = 0.45, and credit multiplier of 8$\times$. Each row varies one assumption while holding others at baseline. Discount rate sensitivity captures the effect on present-value calculations. LGD = loss given default applied to distressed coal exposures. Credit multiplier scales the GDP impact of bank deleveraging.
+\noindent \textit{Notes:} SV = aggregate stranded value in USD billions. Bank Loss = total banking sector losses in USD millions under the 1.5\textdegree{}C scenario. GDP Impact = total GDP impact under 1.5\textdegree{}C. Baseline uses firm-specific WACC (median 11.9\%), LGD = 0.45, mine life $T = 20$ years, and credit multiplier of 8$\times$. Mine life sensitivity (Panel B) uses the supply-curve-based deterministic NPV for 26 firms. DMO sensitivity assumes 25\% of production sold domestically at a capped price of \$70/t. Alternative default specification requires both NPV$<$0 and cash-to-debt ratio below 0.5 for default classification; under 1.5\textdegree{}C, this reduces defaults from 10 to 2 firms.
 \end{table}

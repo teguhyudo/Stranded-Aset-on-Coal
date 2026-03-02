@@ -100,7 +100,7 @@ def fig_01_conceptual_framework():
     ax.add_patch(coal_box)
     ax.text(2.0, 5.95, 'Coal Sector', fontsize=11, fontweight='bold',
             ha='center', va='center', color='#1a1a1a')
-    ax.text(2.0, 5.45, '(35 firms)', fontsize=9, ha='center', va='center',
+    ax.text(2.0, 5.45, '(34 firms)', fontsize=9, ha='center', va='center',
             color='#444444')
     ax.text(2.0, 5.05, 'Stranded Assets / NPV Loss', fontsize=8,
             ha='center', va='center', color='#555555', style='italic')
