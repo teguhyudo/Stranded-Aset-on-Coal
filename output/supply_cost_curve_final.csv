@@ -1,16 +1,26 @@
 ticker,Company_Name,breakeven_usd_t,production_mt,cumulative_production_mt
-BUMI,Bumi Resources Tbk PT,21.899604527813715,77.3,77.3
-SMMT,Golden Eagle Energy Tbk PT,25.22375230769231,2.6,79.89999999999999
-BSSR,Baramulti Suksessarana Tbk PT,36.10633426054706,21.57,101.47
-GEMS,Golden Energy Mines Tbk PT,41.21254379878578,46.12,147.59
-KKGI,Resource Alam Indonesia Tbk PT,44.2804375,5.92,153.51
-ARII,Atlas Resources Tbk PT,45.94306472919418,7.57,161.07999999999998
-BYAN,Bayan Resources Tbk PT,51.62373158953722,49.7,210.77999999999997
-PTBA,Bukit Asam Tbk PT,60.36704945777853,41.9,252.67999999999998
-MCOL,Prima Andalan Mandiri Tbk PT,62.4672251984127,10.08,262.76
-AADI,PT Adaro Andalan Indonesia Tbk,63.121084337349394,68.06,330.82
-INDY,Indika Energy Tbk PT,76.73211860465116,30.1,360.92
-MBAP,Mitrabara Adiperdana Tbk PT,88.17299521531102,2.09,363.01
-ITMG,Indo Tambangraya Megah Tbk PT,104.1110650887574,16.9,379.90999999999997
-TOBA,TBS Energi Utama Tbk PT,124.0965064516129,3.1,383.01
-HRUM,Harum Energy Tbk PT,151.0792742857143,7.0,390.01
+ITMA,Sumber Energi Andalan Tbk PT,9.7,0.0,0.0
+SMMT,Golden Eagle Energy Tbk PT,28.8,2.3,2.3
+BSSR,Baramulti Suksessarana Tbk PT,34.5,21.4,23.7
+GEMS,Golden Energy Mines Tbk PT,43.0,50.7,74.4
+KKGI,Resource Alam Indonesia Tbk PT,48.3,5.9,80.3
+BYAN,Bayan Resources Tbk PT,51.0,56.9,137.2
+BUMI,Bumi Resources Tbk PT,51.1,77.8,215.0
+INDY,Indika Energy Tbk PT,51.6,30.1,245.1
+ARII,Atlas Resources Tbk PT,54.8,7.6,252.7
+DSSA,Dian Swastatika Sentosa Tbk PT,66.4,36.4,289.1
+BOSS,Borneo Olah Sarana Sukses Tbk PT,66.7,0.3,289.4
+PTBA,Bukit Asam Tbk PT,67.5,43.3,332.7
+MCOL,Prima Andalan Mandiri Tbk PT,77.0,10.1,342.8
+AADI,PT Adaro Andalan Indonesia Tbk,80.2,65.8,408.6
+GTBO,Garda Tujuh Buana Tbk PT,84.2,0.3,408.9
+COAL,Black Diamond Resources Tbk PT,93.3,0.4,409.3
+CUAN,PT Petrindo Jaya Kreasi Tbk,95.5,9.7,419.0
+MBAP,Mitrabara Adiperdana Tbk PT,96.0,2.5,421.5
+CNKO,Exploitasi Energi Indonesia Tbk PT,96.1,1.3,422.8
+SGER,Sumber Global Energy Tbk PT,104.1,11.1,433.9
+TRAM,Trada Alam Minera Tbk PT,111.9,3.0,436.9
+ITMG,Indo Tambangraya Megah Tbk PT,133.7,16.9,453.8
+ADMR,Adaro Minerals Indonesia Tbk PT,136.4,6.6,460.4
+TOBA,TBS Energi Utama Tbk PT,168.9,3.1,463.5
+HRUM,Harum Energy Tbk PT,235.0,6.1,469.6
